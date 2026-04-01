@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elena Visuals — Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ee;
+    --warm: #c9a96e;
+    --light-gray: #e8e4df;
+    --mid-gray: #888079;
+    --text: #1a1814;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Montserrat', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    overflow-x: hidden;
+  }
+
+  /* ─── CURSOR ─── */
+  * { cursor: none !important; }
+  #cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--warm);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width .2s, height .2s, opacity .2s;
+    mix-blend-mode: multiply;
+  }
+  #cursor.expand { width: 40px; height: 40px; opacity: .6; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 56px;
+    transition: background .4s, padding .4s;
+  }
+  nav.scrolled {
+    background: rgba(245,242,238,.92);
+    backdrop-filter: blur(12px);
+    padding: 18px 56px;
+    border-bottom: 1px solid rgba(0,0,0,.06);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: .12em;
+    color: var(--white);
+    text-decoration: none;
+    transition: color .3s;
+  }
+  nav.scrolled .nav-logo { color: var(--text); }
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(245,242,238,.8);
+    text-decoration: none;
+    transition: color .3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 100%;
+    height: 1px; background: var(--warm);
+    transition: right .3s;
+  }
+  .nav-links a:hover::after { right: 0; }
+  nav.scrolled .nav-links a { color: var(--mid-gray); }
+  nav.scrolled .nav-links a:hover { color: var(--text); }
+  .nav-hamburger { display: none; }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    height: 100vh; min-height: 620px;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      linear-gradient(160deg, rgba(10,10,10,.18) 0%, rgba(10,10,10,.55) 60%, rgba(10,10,10,.75) 100%),
+      url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1800&q=80') center/cover no-repeat;
+    transform: scale(1.04);
+    animation: heroZoom 18s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom {
+    from { transform: scale(1.04); }
+    to   { transform: scale(1.12); }
+  }
+  .hero-content {
+    position: relative;
+    padding: 0 56px 80px;
+    max-width: 760px;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp .8s .3s forwards;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(52px, 8vw, 100px);
+    font-weight: 300;
+    line-height: .95;
+    color: var(--white);
+    letter-spacing: -.01em;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp .9s .5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--warm);
+  }
+  .hero-sub {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: .08em;
+    color: rgba(245,242,238,.7);
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp .9s .7s forwards;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 14px 32px;
+    border: 1px solid rgba(201,169,110,.6);
+    color: var(--warm);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .2em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background .3s, color .3s;
+    opacity: 0;
+    animation: fadeUp .9s .9s forwards;
+  }
+  .hero-cta:hover {
+    background: var(--warm);
+    color: var(--black);
+  }
+  .hero-cta span { font-size: 16px; }
+  .hero-scroll {
+    position: absolute;
+    right: 56px; bottom: 80px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: rgba(245,242,238,.5);
+    font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s forwards;
+  }
+  .hero-scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, rgba(201,169,110,.8), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(.6); opacity: .5; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 100px 56px; }
+  .section-label {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .3em; text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(38px, 5vw, 62px);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 48px;
+  }
+  .section-title em { font-style: italic; }
+
+  /* ─── PORTFOLIO ─── */
+  #portfolio { background: var(--black); }
+  #portfolio .section-label { color: var(--warm); }
+  #portfolio .section-title { color: var(--white); }
+
+  .filter-tabs {
+    display: flex; gap: 4px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 9px 22px;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,.15);
+    background: transparent;
+    color: rgba(245,242,238,.5);
+    transition: all .3s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--warm);
+    border-color: var(--warm);
+    color: var(--black);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 12px;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    background: #1a1814;
+  }
+  .gallery-item:nth-child(1) { grid-column: span 7; grid-row: span 2; aspect-ratio: unset; }
+  .gallery-item:nth-child(2) { grid-column: span 5; }
+  .gallery-item:nth-child(3) { grid-column: span 5; }
+  .gallery-item:nth-child(4) { grid-column: span 4; }
+  .gallery-item:nth-child(5) { grid-column: span 4; }
+  .gallery-item:nth-child(6) { grid-column: span 4; }
+  .gallery-item:nth-child(7) { grid-column: span 8; }
+  .gallery-item:nth-child(8) { grid-column: span 4; }
+
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .7s cubic-bezier(.25,.46,.45,.94), filter .7s;
+    aspect-ratio: 3/2;
+    filter: brightness(.92) saturate(.9);
+  }
+  .gallery-item:nth-child(1) img { aspect-ratio: unset; min-height: 420px; }
+  .gallery-item:hover img {
+    transform: scale(1.06);
+    filter: brightness(1) saturate(1.1);
+  }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity .4s;
+    display: flex; align-items: flex-end;
+    padding: 20px;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay span {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--warm);
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    padding: 120px 56px;
+  }
+  .about-image-wrap {
+    position: relative;
+  }
+  .about-image-wrap::before {
+    content: '';
+    position: absolute;
+    top: -20px; left: -20px;
+    right: 20px; bottom: 20px;
+    border: 1px solid var(--warm);
+    z-index: 0;
+  }
+  .about-image-wrap img {
+    position: relative;
+    width: 100%; display: block;
+    object-fit: cover;
+    aspect-ratio: 3/4;
+    z-index: 1;
+    filter: saturate(.85);
+  }
+  .about-content .section-label { margin-bottom: 12px; }
+  .about-quote {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 300;
+    line-height: 1.3;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 28px;
+    border-left: 2px solid var(--warm);
+    padding-left: 20px;
+  }
+  .about-body {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--mid-gray);
+    margin-bottom: 36px;
+  }
+  .about-stats {
+    display: flex; gap: 40px;
+    margin-bottom: 40px;
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 46px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-top: 4px;
+  }
+
+  /* ─── SERVICES ─── */
+  #services { background: #f0ece6; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 0;
+  }
+  .service-card {
+    background: var(--white);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background .4s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 100%;
+    height: 2px; background: var(--warm);
+    transition: right .5s cubic-bezier(.25,.46,.45,.94);
+  }
+  .service-card:hover::before { right: 0; }
+  .service-card:hover { background: var(--black); }
+  .service-card:hover .service-name,
+  .service-card:hover .service-price,
+  .service-card:hover .service-includes li { color: var(--white); }
+  .service-card:hover .service-desc { color: var(--mid-gray); }
+  .service-num {
+    font-family: var(--serif);
+    font-size: 11px; font-weight: 300;
+    letter-spacing: .2em;
+    color: var(--warm);
+    margin-bottom: 20px;
+  }
+  .service-name {
+    font-family: var(--serif);
+    font-size: 28px; font-weight: 300;
+    color: var(--text);
+    margin-bottom: 10px;
+    transition: color .4s;
+  }
+  .service-price {
+    font-size: 13px; font-weight: 500;
+    color: var(--warm);
+    margin-bottom: 18px;
+    transition: color .4s;
+  }
+  .service-desc {
+    font-size: 13px; font-weight: 300;
+    line-height: 1.8;
+    color: var(--mid-gray);
+    margin-bottom: 24px;
+    transition: color .4s;
+  }
+  .service-includes {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .service-includes li {
+    font-size: 12px; font-weight: 300;
+    color: var(--mid-gray);
+    padding-left: 16px;
+    position: relative;
+    transition: color .4s;
+  }
+  .service-includes li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--warm);
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials {
+    background: var(--black);
+    text-align: center;
+    padding: 100px 56px;
+  }
+  #testimonials .section-label { justify-content: center; }
+  #testimonials .section-title { color: var(--white); text-align: center; }
+
+  .testimonials-slider {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .testimonials-track {
+    display: flex;
+    transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+  }
+  .testimonial {
+    min-width: 100%;
+    padding: 20px 0 60px;
+  }
+  .testimonial-quote {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+  .testimonial-quote::before { content: '\201C'; color: var(--warm); }
+  .testimonial-quote::after  { content: '\201D'; color: var(--warm); }
+  .testimonial-author {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 4px;
+  }
+  .testimonial-role {
+    font-size: 11px;
+    color: rgba(245,242,238,.4);
+    letter-spacing: .1em;
+  }
+  .slider-dots {
+    display: flex; justify-content: center; gap: 8px;
+    margin-top: 0;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    transition: background .3s, transform .3s;
+  }
+  .dot.active {
+    background: var(--warm);
+    transform: scale(1.3);
+  }
+
+  /* ─── INSTAGRAM ─── */
+  #instagram { padding: 0; }
+  .instagram-header {
+    padding: 80px 56px 48px;
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .instagram-handle {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    transition: color .3s;
+  }
+  .instagram-handle:hover { color: var(--warm); }
+  .instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3px;
+  }
+  .insta-item {
+    position: relative; overflow: hidden;
+    aspect-ratio: 1;
+    background: var(--light-gray);
+  }
+  .insta-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s, filter .5s;
+    filter: saturate(.8);
+  }
+  .insta-item:hover img {
+    transform: scale(1.08);
+    filter: saturate(1.1);
+  }
+  .insta-overlay {
+    position: absolute; inset: 0;
+    background: rgba(201,169,110,.0);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .4s;
+  }
+  .insta-item:hover .insta-overlay { background: rgba(201,169,110,.35); }
+  .insta-icon {
+    font-size: 22px; color: white; opacity: 0;
+    transition: opacity .3s;
+  }
+  .insta-item:hover .insta-icon { opacity: 1; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+  }
+  .contact-image {
+    background: url('https://images.unsplash.com/photo-1532635241-17e820acc59f?w=900&q=80') center/cover;
+    min-height: 600px;
+  }
+  .contact-form-wrap {
+    padding: 80px 64px;
+    background: var(--black);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-form-wrap .section-label { color: var(--warm); }
+  .contact-form-wrap .section-title { color: var(--white); margin-bottom: 36px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(245,242,238,.4);
+    margin-bottom: 8px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 13px; font-weight: 300;
+    padding: 13px 16px;
+    outline: none;
+    transition: border-color .3s, background .3s;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--warm);
+    background: rgba(201,169,110,.06);
+  }
+  .form-group select option { background: var(--black); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .btn-submit {
+    margin-top: 8px;
+    padding: 15px 36px;
+    background: var(--warm);
+    color: var(--black);
+    font-family: var(--sans);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .22em; text-transform: uppercase;
+    border: none;
+    transition: background .3s, transform .2s;
+    display: inline-flex; align-items: center; gap: 10px;
+    align-self: flex-start;
+  }
+  .btn-submit:hover {
+    background: #b8944e;
+    transform: translateY(-1px);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 40px 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 20px; font-weight: 300;
+    letter-spacing: .12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(245,242,238,.3);
+    letter-spacing: .06em;
+  }
+  .footer-links {
+    display: flex; gap: 24px; list-style: none;
+  }
+  .footer-links a {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(245,242,238,.4);
+    text-decoration: none;
+    transition: color .3s;
+  }
+  .footer-links a:hover { color: var(--warm); }
+
+  /* ─── REVEAL ANIMATION ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .8s, transform .8s;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger {
+      display: flex; flex-direction: column; gap: 5px;
+      background: none; border: none;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--white);
+      transition: background .3s;
+    }
+    nav.scrolled .nav-hamburger span { background: var(--text); }
+
+    section { padding: 72px 24px; }
+    .hero-content { padding: 0 24px 72px; }
+    .hero-scroll { right: 24px; bottom: 72px; }
+
+    #about { grid-template-columns: 1fr; gap: 48px; padding: 72px 24px; }
+    .about-image-wrap { max-width: 360px; margin: 0 auto; }
+
+    .services-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    #contact { grid-template-columns: 1fr; }
+    .contact-image { min-height: 280px; }
+    .contact-form-wrap { padding: 56px 24px; }
+
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; }
+    .gallery-item img { aspect-ratio: 3/2 !important; min-height: unset !important; }
+
+    .instagram-grid { grid-template-columns: repeat(3, 1fr); }
+    .instagram-header { padding: 60px 24px 32px; flex-direction: column; align-items: flex-start; gap: 16px; }
+
+    footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+
+    .about-stats { gap: 24px; }
+    .stat-num { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">Elena Visuals</a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://instagram.com" target="_blank">@elenavisuals</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Photography &amp; Visual Storytelling</span>
+    <h1 class="hero-title">Capturing<br><em>Moments</em><br>That Matter</h1>
+    <p class="hero-sub">Based in New York · Available Worldwide</p>
+    <a href="#contact" class="hero-cta"><span>→</span> Book a Session</a>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="reveal">
+    <p class="section-label">Selected Work</p>
+    <h2 class="section-title">The <em>Portfolio</em></h2>
+  </div>
+  <div class="filter-tabs reveal">
+    <button class="tab-btn active" data-filter="all">All</button>
+    <button class="tab-btn" data-filter="weddings">Weddings</button>
+    <button class="tab-btn" data-filter="portraits">Portraits</button>
+    <button class="tab-btn" data-filter="lifestyle">Lifestyle</button>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item" data-cat="weddings">
+      <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=900&q=80" alt="Wedding">
+      <div class="gallery-overlay"><span>Weddings</span></div>
+    </div>
+    <div class="gallery-item" data-cat="portraits">
+      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="Portrait">
+      <div class="gallery-overlay"><span>Portraits</span></div>
+    </div>
+    <div class="gallery-item" data-cat="lifestyle">
+      <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Lifestyle">
+      <div class="gallery-overlay"><span>Lifestyle</span></div>
+    </div>
+    <div class="gallery-item" data-cat="portraits">
+      <img src="https://images.unsplash.com/photo-1469460340997-2f854421e72f?w=600&q=80" alt="Portrait">
+      <div class="gallery-overlay"><span>Portraits</span></div>
+    </div>
+    <div class="gallery-item" data-cat="weddings">
+      <img src="https://images.unsplash.com/photo-1519741347686-c1e0aadf4611?w=600&q=80" alt="Wedding">
+      <div class="gallery-overlay"><span>Weddings</span></div>
+    </div>
+    <div class="gallery-item" data-cat="lifestyle">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Lifestyle">
+      <div class="gallery-overlay"><span>Lifestyle</span></div>
+    </div>
+    <div class="gallery-item" data-cat="lifestyle">
+      <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=900&q=80" alt="Lifestyle">
+      <div class="gallery-overlay"><span>Lifestyle</span></div>
+    </div>
+    <div class="gallery-item" data-cat="portraits">
+      <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=600&q=80" alt="Portrait">
+      <div class="gallery-overlay"><span>Portraits</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-image-wrap reveal">
+    <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80" alt="Elena">
+  </div>
+  <div class="about-content reveal">
+    <p class="section-label">About Elena</p>
+    <blockquote class="about-quote">I believe every photograph should feel like a held breath.</blockquote>
+    <p class="about-body">
+      With over a decade behind the lens, I've built a practice rooted in quiet observation and honest emotion. My work spans intimate weddings in countryside estates, editorial portraits for global brands, and personal lifestyle stories across six continents.
+      <br><br>
+      I shoot with available light whenever possible — drawn to the way golden hour bends through linen curtains or the way rain-wet cobblestones mirror a stolen glance.
+    </p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">320+</div>
+        <div class="stat-label">Weddings</div>
+      </div>
+      <div>
+        <div class="stat-num">14</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      <div>
+        <div class="stat-num">10</div>
+        <div class="stat-label">Years</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div style="text-align:center; margin-bottom: 64px;" class="reveal">
+    <p class="section-label">What I Offer</p>
+    <h2 class="section-title">Services &amp; <em>Pricing</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <h3 class="service-name">Weddings</h3>
+      <div class="service-price">Starting at $3,200</div>
+      <p class="service-desc">Full-day documentary coverage of your most cherished day — from quiet morning moments to the final dance.</p>
+      <ul class="service-includes">
+        <li>8–10 hours of coverage</li>
+        <li>500+ edited images</li>
+        <li>Online gallery delivery</li>
+        <li>Engagement session included</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <h3 class="service-name">Portraits</h3>
+      <div class="service-price">Starting at $650</div>
+      <p class="service-desc">Personal, editorial, and brand portraits that communicate exactly who you are — no awkward posing required.</p>
+      <ul class="service-includes">
+        <li>90-minute session</li>
+        <li>2 outfit changes</li>
+        <li>50+ edited images</li>
+        <li>Commercial license available</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <h3 class="service-name">Brand &amp; Lifestyle</h3>
+      <div class="service-price">Starting at $1,800</div>
+      <p class="service-desc">Visual content strategies for brands who understand that imagery is the first language of trust.</p>
+      <ul class="service-includes">
+        <li>Half or full-day shoot</li>
+        <li>Art direction included</li>
+        <li>100+ curated images</li>
+        <li>Social media packages</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <p class="section-label reveal" style="text-align:center; display:block;">Client Words</p>
+  <h2 class="section-title reveal">What They <em>Say</em></h2>
+  <div class="testimonials-slider reveal">
+    <div class="testimonials-track" id="track">
+      <div class="testimonial">
+        <p class="testimonial-quote">Elena has an extraordinary gift for disappearing into a moment. Our wedding album doesn't look like photography — it looks like memory.</p>
+        <div class="testimonial-author">Sophie &amp; James</div>
+        <div class="testimonial-role">Married in Tuscany, 2024</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">Working with Elena transformed our brand's visual identity overnight. She understood our aesthetic before we even finished the brief.</p>
+        <div class="testimonial-author">Maeva Laurent</div>
+        <div class="testimonial-role">Creative Director, Maison Bloom</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">My portrait session was the most comfortable I've ever felt in front of a camera. The final images don't look like me — they look like the best version of me.</p>
+        <div class="testimonial-author">Dr. Amara Osei</div>
+        <div class="testimonial-role">Author &amp; Speaker</div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-dots reveal" id="dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="instagram-header reveal">
+    <div>
+      <p class="section-label">Follow Along</p>
+      <h2 class="section-title" style="margin-bottom:0;">Daily <em>Moments</em></h2>
+    </div>
+    <a href="https://instagram.com" target="_blank" class="instagram-handle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+      @elenavisuals
+    </a>
+  </div>
+  <div class="instagram-grid">
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1519741347686-c1e0aadf4611?w=400&q=80" alt=""><div class="insta-overlay"><span class="insta-icon">♡</span></div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80" alt=""><div class="insta-overlay"><span class="insta-icon">♡</span></div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" alt=""><div class="insta-overlay"><span class="insta-icon">♡</span></div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1469460340997-2f854421e72f?w=400&q=80" alt=""><div class="insta-overlay"><span class="insta-icon">♡</span></div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80" alt=""><div class="insta-overlay"><span class="insta-icon">♡</span></div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400&q=80" alt=""><div class="insta-overlay"><span class="insta-icon">♡</span></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-image"></div>
+  <div class="contact-form-wrap">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Book a <em>Session</em></h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" placeholder="Sophie">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" placeholder="Martin">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="hello@you.com">
+    </div>
+    <div class="form-group">
+      <label>Photography Type</label>
+      <select>
+        <option value="">Select a service</option>
+        <option>Wedding Photography</option>
+        <option>Portrait Session</option>
+        <option>Brand &amp; Lifestyle</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Tell Me About Your Vision</label>
+      <textarea placeholder="Date, location, what you're dreaming of..."></textarea>
+    </div>
+    <button class="btn-submit">Send Inquiry →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="footer-logo" href="#">Elena Visuals</a>
+  <ul class="footer-links">
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 Elena Visuals. All rights reserved.</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .gallery-item, .insta-item, .service-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: .12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Gallery filter
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        const show = f === 'all' || item.dataset.cat === f;
+        item.style.opacity     = show ? '1' : '0.15';
+        item.style.transform   = show ? 'scale(1)' : 'scale(.97)';
+        item.style.transition  = 'opacity .4s, transform .4s';
+        item.style.pointerEvents = show ? 'auto' : 'none';
+      });
+    });
+  });
+
+  // Testimonials slider
+  let current = 0;
+  const track = document.getElementById('track');
+  const dots  = document.querySelectorAll('.dot');
+  const total = document.querySelectorAll('.testimonial').length;
+  function goTo(i) {
+    current = (i + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+  }
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+  setInterval(() => goTo(current + 1), 5000);
+</script>
+</body>
+</html>
